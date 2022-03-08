@@ -8,6 +8,17 @@ export const drawStroke = (
 	if (!points.length) {
 		return;
 	}
+
+    context.strokeStyle = color
+    context.beginPath()
+    context.moveTo(points[0].x, points[0].y)
+
+    points.forEach((point) => {
+        context.lineTo(point.x, point.y)
+        context.stroke()
+    })
+
+    context.closePath()
 };
 
 

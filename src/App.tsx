@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { currentStrokeSelector } from "./selectors";
 import "./App.css";
 import { beginStroke, endStroke, updateStroke } from "./actions";
+import { drawStroke } from "./canvasUtils";
 
 function App() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,7 +15,7 @@ function App() {
 
   const getCanvasWithContext = (canvas = canvasRef.current) => {
     return {
-      canvas, context: canvas?.getContext("2d")
+      canvas, context: canvas?.getContext('2d')
     }
   }
 
@@ -34,7 +35,6 @@ function App() {
 		nativeEvent,
 	}: React.MouseEvent<HTMLCanvasElement>) => {
 		const { offsetX, offsetY } = nativeEvent;
-
 		dispatch(beginStroke(offsetX, offsetY));
 	};
 
