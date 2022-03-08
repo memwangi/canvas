@@ -1,9 +1,10 @@
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { currentStrokeSelector } from "./selectors";
 import "./App.css";
 import { beginStroke, endStroke, updateStroke } from "./actions";
 import { drawStroke } from "./canvasUtils";
+import { ColorPanel } from "./ColorPanel";
 
 function App() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -13,23 +14,23 @@ function App() {
 	//Check whether there's been any drawing
 	const isDrawing = !!currentStroke.points.length;
 
-  const getCanvasWithContext = (canvas = canvasRef.current) => {
-    return {
-      canvas, context: canvas?.getContext('2d')
-    }
-  }
+	const getCanvasWithContext = (canvas = canvasRef.current) => {
+		return {
+			canvas,
+			context: canvas?.getContext("2d"),
+		};
+	};
 
-  useEffect(() => {
-    const {context} = getCanvasWithContext()
-    if(!context) {
-      return
-    }
+	useEffect(() => {
+		const { context } = getCanvasWithContext();
+		if (!context) {
+			return;
+		}
 
-    requestAnimationFrame(() => 
-      drawStroke(context, currentStroke.points, currentStroke.color)
-    )
-
-  }, [currentStroke])
+		requestAnimationFrame(() =>
+			drawStroke(context, currentStroke.points, currentStroke.color)
+		);
+	}, [currentStroke]);
 
 	const startDrawing = ({
 		nativeEvent,
@@ -53,13 +54,16 @@ function App() {
 	};
 
 	return (
-		<canvas
-			ref={canvasRef}
-			onMouseDown={startDrawing}
-			onMouseUp={endDrawing}
-			onMouseOut={endDrawing}
-			onMouseMove={draw}
-		/>
+		<>
+			<ColorPanel />
+			<canvas
+				ref={canvasRef}
+				onMouseDown={startDrawing}
+				onMouseUp={endDrawing}
+				onMouseOut={endDrawing}
+				onMouseMove={draw}
+			/>
+		</>
 	);
 }
 
